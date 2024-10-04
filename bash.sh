@@ -17,6 +17,16 @@ sudo apt-get update -y && sudo apt-get upgrade -y
 echo -e "${GREEN}Installing essential packages...${NC}"
 sudo apt-get install -y mc net-tools software-properties-common curl pwgen ufw
 
+# Установка Node.js, npm и PM2
+echo -e "${GREEN}Installing Node.js, npm, and pm2...${NC}"
+curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo npm install -g pm2
+
+# Установка Python 3 и pip
+echo -e "${GREEN}Installing Python 3 and pip...${NC}"
+sudo apt-get install -y python3 python3-pip
+
 # Генерация случайного 5-значного порта для SSH
 SSH_PORT=$(shuf -i 50000-80000 -n 1)
 echo -e "${YELLOW}Generated random SSH port: $SSH_PORT${NC}"
@@ -39,16 +49,6 @@ sudo ufw allow $SSH_PORT/tcp
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 sudo ufw enable
-
-# Установка Node.js, npm и PM2
-echo -e "${GREEN}Installing Node.js, npm, and pm2...${NC}"
-curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
-sudo apt-get install -y nodejs
-sudo npm install -g pm2
-
-# Установка Python 3 и pip
-echo -e "${GREEN}Installing Python 3 and pip...${NC}"
-sudo apt-get install -y python3 python3-pip
 
 # Генерация случайного пароля для root
 NEW_PASSWORD=$(pwgen -s 32 1)
