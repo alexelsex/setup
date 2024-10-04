@@ -31,9 +31,14 @@ sudo apt-get install -y python3 python3-pip
 SSH_PORT=$(shuf -i 50000-80000 -n 1)
 echo -e "${YELLOW}Generated random SSH port: $SSH_PORT${NC}"
 
-# Замена порта в конфигурационном файле SSH
-echo -e "${BLUE}Changing SSH port in /etc/ssh/sshd_config...${NC}"
-sudo sed -i "s/^#Port 22/Port $SSH_PORT/" /etc/ssh/sshd_config
+# Замена строки с портом или добавление новой строки
+if sudo grep -q "^Port" /etc/ssh/sshd_config; then
+    sudo sed -i "s/^Port .*/Port $SSH_PORT/" /etc/ssh/sshd_config
+else
+    echo "Port $SSH_PORT" | sudo tee -a /etc/ssh/sshd_config
+fi
+
+echo "Changing SSH port in /etc/ssh/sshd_config..."
 
 # Перезапуск SSH службы
 echo -e "${GREEN}Restarting SSH service...${NC}"
