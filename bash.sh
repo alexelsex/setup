@@ -57,18 +57,19 @@ sudo ufw enable
 
 # Генерация случайного пароля для root
 NEW_PASSWORD=$(pwgen -s 32 1)
-echo -e "${YELLOW}Generated random password for root: $NEW_PASSWORD${NC}"
+#echo -e "${YELLOW}Generated random password for root: $NEW_PASSWORD${NC}"
 
 # Установка нового пароля для root
 echo -e "${GREEN}Updating root password...${NC}"
 echo "root:$NEW_PASSWORD" | sudo chpasswd
-
-# Вывод информации о настройке сервера
-echo -e "${RED}-----------------------------------------------${NC}"
+echo -e "\n"
 echo -e "${GREEN}Server setup complete!${NC}"
-echo -e "${BLUE}SSH now running on IP: $(hostname -I | awk '{print $1}') Port: $SSH_PORT${NC}"
+echo -e "\n"
+# Вывод информации о настройке сервера
+echo -e "${BLUE}-----------------------------------------------${NC}"
+#echo -e "${RED}SSH now running on IP: $(hostname -I | awk '{print $1}') Port: $SSH_PORT${NC}"
 echo -e "${YELLOW}Root access credentials:${NC}"
-echo -e "${BLUE}  IP Address: $(hostname -I | awk '{print $1}')${NC}"
-echo -e "${BLUE}  Port: $SSH_PORT${NC}"
+echo -e "${YELLOW}  IP Address: $(hostname -I | awk '{print $1}')${NC}"
+echo -e "${YELLOW}  Port: $SSH_PORT${NC}"
 echo -e "${YELLOW}  Root Password: $NEW_PASSWORD${NC}"
-echo -e "${RED}-----------------------------------------------${NC}"
+echo -e "${BLUE}-----------------------------------------------${NC}"
