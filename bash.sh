@@ -28,7 +28,7 @@ echo -e "${GREEN}Installing Python 3 and pip...${NC}"
 sudo apt-get install -y python3 python3-pip
 
 # Генерация случайного 5-значного порта для SSH
-SSH_PORT=$(shuf -i 50000-80000 -n 1)
+SSH_PORT=$(shuf -i 20000-65535 -n 1)
 echo -e "${YELLOW}Generated random SSH port: $SSH_PORT${NC}"
 
 # Замена строки с портом или добавление новой строки
