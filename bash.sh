@@ -74,7 +74,7 @@ echo -e "\n"
 # Вывод информации о настройке сервера
 echo -e "${YELLOW}-----------------------------------------------${NC}"
 #echo -e "${RED}SSH now running on IP: $(hostname -I | awk '{print $1}') Port: $SSH_PORT${NC}"
-echo -e "${GREEN}${$HOSTNAME} credentials:${NC}"
+echo -e "${GREEN} $HOSTNAME credentials:${NC}"
 echo -e "${GREEN}- IP Address: $(hostname -I | awk '{print $1}')${NC}"
 echo -e "${GREEN}- Port: $SSH_PORT${NC}"
 echo -e "${GREEN}- Root Password: $NEW_PASSWORD${NC}"
