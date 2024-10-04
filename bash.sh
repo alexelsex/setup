@@ -47,8 +47,8 @@ SSH_PORT=$(shuf -i 20000-65535 -n 1)
 echo -e "${YELLOW}Generated random SSH port: $SSH_PORT${NC}"
 
 # Замена строки с портом или добавление новой строки
-if sudo grep -q "^Port" /etc/ssh/sshd_config; then
-    sudo sed -i "s/^Port .*/Port $SSH_PORT/" /etc/ssh/sshd_config
+if sudo grep -q "^#\?Port" /etc/ssh/sshd_config; then
+    sudo sed -i "s/^#\?Port .*/Port $SSH_PORT/" /etc/ssh/sshd_config
 else
     echo "Port $SSH_PORT" | sudo tee -a /etc/ssh/sshd_config
 fi
@@ -57,10 +57,19 @@ echo "Changing SSH port in /etc/ssh/sshd_config..."
 
 # Перезапуск SSH службы
 echo -e "${GREEN}Restarting SSH service...${NC}"
-if sudo systemctl restart sshd; then
-    echo -e "${GREEN}SSH service restarted successfully.${NC}"
+
+# Определяем, какая служба активна
+SSH_SERVICE=$(systemctl list-units --type=service --all | grep -E 'ssh\.service|sshd\.service' | awk '{print $1}' | head -n 1)
+
+# Проверяем, нашлась ли служба и перезапускаем её
+if [ -n "$SSH_SERVICE" ]; then
+    if sudo systemctl restart "$SSH_SERVICE"; then
+        echo -e "${GREEN}SSH service restarted successfully.${NC}"
+    else
+        echo -e "${RED}Failed to restart SSH service.${NC}"
+    fi
 else
-    echo -e "${RED}Failed to restart SSH service.${NC}"
+    echo -e "${RED}No SSH service found.${NC}"
 fi
 
 # Брандмауэр (UFW)
