@@ -58,6 +58,8 @@ echo "Changing SSH port in /etc/ssh/sshd_config..."
 # Перезапуск SSH службы
 echo -e "${GREEN}Restarting SSH service...${NC}"
 
+sudo systemctl daemon-reload
+
 # Определяем, какая служба активна
 SSH_SERVICE=$(systemctl list-units --type=service --all | grep -E 'ssh\.service|sshd\.service' | awk '{print $1}' | head -n 1)
 
