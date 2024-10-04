@@ -7,6 +7,12 @@ BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
+# Запрос имени сервера
+echo -e "${BLUE}Please enter the desired server name (hostname):${NC}"
+read -p "Hostname: " SERVER_NAME
+sudo hostnamectl set-hostname "$SERVER_NAME"
+echo -e "${GREEN}Hostname set to: $SERVER_NAME${NC}"
+
 echo -e "${BLUE}Starting server setup...${NC}"
 
 # Обновление списка пакетов и системное обновление
