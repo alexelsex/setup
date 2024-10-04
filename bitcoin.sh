@@ -48,6 +48,22 @@ make -j$(nproc)
 sudo make install
 cd ..
 
+# Создание файла конфигурации bitcoin.conf
+echo -e "${GREEN}Создание файла конфигурации bitcoin.conf...${NC}"
+mkdir -p "$DATA_DIR"
+SERVER_IP=$(hostname -I | awk '{print $1}')  # Получение IP сервера
+
+sudo tee "$DATA_DIR/bitcoin.conf" > /dev/null <<EOL
+wallet=default
+testnet=0
+server=1
+txindex=1
+rpcuser=bitcoinu
+rpcpassword=1fhYEnFG4MKmNJGCIZPb3
+rpcport=8332
+rpcallowip=$SERVER_IP
+EOL
+
 # Создание файла службы systemd для Bitcoin
 echo -e "${GREEN}Создание службы systemd для Bitcoin Core...${NC}"
 sudo tee /etc/systemd/system/bitcoind.service > /dev/null <<EOL
