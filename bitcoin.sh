@@ -4,6 +4,23 @@
 GREEN='\033[0;32m'
 NC='\033[0m'
 
+# Получение списка доступных версий Bitcoin Core
+echo -e "${GREEN}Получение списка доступных версий Bitcoin Core...${NC}"
+AVAILABLE_VERSIONS=$(curl -s https://api.github.com/repos/bitcoin/bitcoin/tags | grep '"name":' | awk '{print $2}' | sed 's/[",]//g' | head -n 10)
+
+echo -e "${GREEN}Доступные версии:${NC}"
+echo "$AVAILABLE_VERSIONS"
+
+# Запрос версии для установки
+echo -e "${GREEN}Введите версию Bitcoin Core для установки из списка выше (например, v26.2).${NC}"
+read -p "Версия: " VERSION
+
+# Если версия не указана, используем последнюю
+if [ -z "$VERSION" ]; then
+    VERSION=$(echo "$AVAILABLE_VERSIONS" | head -n 1)
+fi
+echo -e "${GREEN}Выбрана версия Bitcoin Core: $VERSION${NC}"
+
 # Запрос пути для хранения данных
 read -p "Введите путь для хранения данных (по умолчанию: ~/.bitcoin): " DATA_DIR
 
@@ -22,8 +39,8 @@ sudo apt install -y build-essential libtool autotools-dev automake pkg-config \
     libqrencode-dev libsecp256k1-dev git
 
 # Клонирование и установка Bitcoin Core
-echo -e "${GREEN}Клонирование Bitcoin Core...${NC}"
-git clone --branch v26.2 https://github.com/bitcoin/bitcoin.git
+echo -e "${GREEN}Клонирование Bitcoin Core версии $VERSION...${NC}"
+git clone --branch "$VERSION" https://github.com/bitcoin/bitcoin.git
 cd bitcoin
 ./autogen.sh
 ./configure --disable-wallet --without-gui
