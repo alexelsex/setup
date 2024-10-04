@@ -59,7 +59,7 @@ echo -e "${GREEN}Configuring UFW firewall...${NC}"
 sudo ufw allow $SSH_PORT/tcp
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
-sudo ufw enable
+sudo ufw --force enable
 
 # Генерация случайного пароля для root
 NEW_PASSWORD=$(pwgen -s 32 1)
