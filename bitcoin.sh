@@ -23,7 +23,7 @@ sudo apt install -y build-essential libtool autotools-dev automake pkg-config \
 
 # Клонирование и установка Bitcoin Core
 echo -e "${GREEN}Клонирование Bitcoin Core...${NC}"
-git clone https://github.com/bitcoin/bitcoin.git
+git clone --branch v26.2 https://github.com/bitcoin/bitcoin.git
 cd bitcoin
 ./autogen.sh
 ./configure --disable-wallet --without-gui
