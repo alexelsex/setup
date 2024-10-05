@@ -30,17 +30,13 @@ sudo apt-get update -y && sudo apt-get upgrade -y
 
 # Установка основных утилит
 echo -e "${GREEN}Installing essential packages...${NC}"
-sudo apt-get install -y mc net-tools software-properties-common curl pwgen ufw
+sudo apt-get install -y mc net-tools software-properties-common pwgen ufw glances python3 python3-pip bpytop
 
 # Установка Node.js, npm и PM2
 echo -e "${GREEN}Installing Node.js, npm, and pm2...${NC}"
 curl -fsSL https://deb.nodesource.com/setup_current.x | sudo -E bash -
 sudo apt-get install -y nodejs
 sudo npm install -g pm2
-
-# Установка Python 3 и pip
-echo -e "${GREEN}Installing Python 3 and pip...${NC}"
-sudo apt-get install -y python3 python3-pip
 
 # Генерация случайного 5-значного порта для SSH
 SSH_PORT=$(shuf -i 20000-65535 -n 1)
