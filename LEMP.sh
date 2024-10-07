@@ -39,7 +39,7 @@ sudo apt update
 sudo apt-get install -y aptitude
 
 # Установка MariaDB через aptitude
-sudo aptitude install -y mariadb-server mariadb-client
+sudo aptitude install mariadb-server mariadb-client
 
 # Настройка безопасности MariaDB
 ROOT_PASSWORD=$(pwgen -s 32 1)
@@ -83,7 +83,7 @@ tar -xzvf openresty-$SELECTED_VERSION.tar.gz
 git clone https://github.com/kyprizel/testcookie-nginx-module.git
 
 # Сборка и установка OpenResty с модулем testcookie
-cd openresty-1.21.4.1
+cd openresty-$SELECTED_VERSION
 ./configure --add-module=/opt/testcookie-nginx-module \
 --with-pcre-jit --with-ipv6 --with-http_ssl_module --with-http_stub_status_module
 make
