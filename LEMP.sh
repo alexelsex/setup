@@ -34,7 +34,7 @@ fi
 
 # Установка MariaDB с выбранной версией
 curl -fsSL https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/mariadb.gpg > /dev/null
-sudo add-apt-repository "deb [arch=amd64,arm64,ppc64el] https://mariadb.mirror.liquidtelecom.com/repo/$SELECTED_VERSION/ubuntu focal main"
+sudo add-apt-repository -y "deb [arch=amd64,arm64,ppc64el] https://mariadb.mirror.liquidtelecom.com/repo/$SELECTED_VERSION/ubuntu focal main"
 sudo apt update
 sudo apt-get install -y aptitude
 
