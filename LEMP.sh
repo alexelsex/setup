@@ -78,13 +78,13 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-tar -xzvf openresty-$LATEST_VERSION.tar.gz
+tar -xzvf openresty-$SELECTED_VERSION.tar.gz
 
 # Скачивание модуля testcookie
 git clone https://github.com/kyprizel/testcookie-nginx-module.git
 
 # Сборка и установка OpenResty с модулем testcookie
-cd openresty-$LATEST_VERSION
+cd openresty-$SELECTED_VERSION
 ./configure --add-module=/opt/testcookie-nginx-module \
 --with-pcre-jit --with-ipv6 --with-http_ssl_module --with-http_stub_status_module
 make
