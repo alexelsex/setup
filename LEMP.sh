@@ -333,3 +333,4 @@ fi
 echo "===================="
 echo "Установка завершена!"
 echo "===================="
+echo "\nMYSQL root password: $ROOT_PASSWORD"
