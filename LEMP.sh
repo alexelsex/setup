@@ -59,10 +59,10 @@ echo "===================="
 
 # Получаем список доступных версий OpenResty
 echo "Получение списка доступных версий OpenResty..."
-AVAILABLE_VERSIONS=$(wget -qO- https://openresty.org/download/ | grep -oP 'openresty-\K[0-9]+\.[0-9]+\.[0-9]+' | sort -r)
+AVAILABLE_VERSIONS=$(wget -qO- https://openresty.org/download/ | grep -oP 'openresty-\K[0-9]+\.[0-9]+\.[0-9]+(?<!rc)' | sort -u)
 
-# Отображаем список версий и просим пользователя выбрать
-echo "Доступные версии OpenResty:"
+# Отображаем список уникальных стабильных версий и просим пользователя выбрать
+echo "Доступные стабильные версии OpenResty:"
 echo "$AVAILABLE_VERSIONS"
 echo
 read -p "Введите версию OpenResty для установки (например, 1.21.4.1): " SELECTED_VERSION
