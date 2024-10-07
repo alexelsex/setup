@@ -132,7 +132,7 @@ WORKER_PROCESSES=$(nproc)
 WORKER_CONNECTIONS=$(ulimit -n)
 
 # Добавляем настройки в основной конфигурационный файл Nginx (/etc/nginx/nginx.conf)
-sudo bash -c "cat >> /etc/nginx/nginx.conf" <<EOF
+sudo bash -c "cat > /etc/nginx/nginx.conf" <<EOF
 user www-data;
 worker_processes  $WORKER_PROCESSES;
 
