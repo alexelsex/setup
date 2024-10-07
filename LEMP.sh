@@ -330,7 +330,14 @@ else
 fi
 
 ########################################
-echo "===================="
-echo "Установка завершена!"
-echo "===================="
-echo "\nMYSQL root password: $ROOT_PASSWORD"
+# Цвета
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+echo -e "${YELLOW}====================${NC}"
+echo -e "${YELLOW}Установка завершена!${NC}"
+echo -e "${YELLOW}====================${NC}"
+echo -e "\n${GREEN}MYSQL root password: ${RED}$ROOT_PASSWORD${NC}"
+echo -e "${GREEN}phpMyAdmin доступен по адресу: ${RED}http://$DOMAIN${NC}"
