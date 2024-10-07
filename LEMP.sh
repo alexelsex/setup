@@ -22,7 +22,7 @@ AVAILABLE_VERSIONS=$(wget -qO- https://downloads.mariadb.org/ | grep -oP '10\.[0
 echo "Доступные версии MariaDB:"
 echo "$AVAILABLE_VERSIONS"
 echo
-read -p "Введите версию MariaDB для установки (например, 10.6): " SELECTED_VERSION
+read -p "Введите версию MariaDB для установки (например, 10.6.19): " SELECTED_VERSION
 
 # Проверяем, что версия введена корректно
 if echo "$AVAILABLE_VERSIONS" | grep -q "^$SELECTED_VERSION$"; then
@@ -58,32 +58,33 @@ echo "Шаг 3: Установка и сборка OpenResty с модулем t
 echo "===================="
 
 # Получаем список доступных версий OpenResty
-echo "Получение списка доступных версий OpenResty..."
-AVAILABLE_VERSIONS=$(wget -qO- https://openresty.org/download/ | grep -oP 'openresty-\K[0-9]+\.[0-9]+\.[0-9]+(?<!rc)' | sort -u)
-
-# Отображаем список уникальных стабильных версий и просим пользователя выбрать
-echo "Доступные стабильные версии OpenResty:"
-echo "$AVAILABLE_VERSIONS"
-echo
-read -p "Введите версию OpenResty для установки (например, 1.21.4.1): " SELECTED_VERSION
-
-# Проверяем, что версия введена корректно
-if echo "$AVAILABLE_VERSIONS" | grep -q "^$SELECTED_VERSION$"; then
-    echo "Вы выбрали версию: $SELECTED_VERSION"
-else
-    echo "Ошибка: Введена некорректная версия OpenResty!"
+echo "Получение latest -v OpenResty..."
+LATEST_VERSION=$(wget -qO- https://openresty.org/en/download.html | grep -oP 'openresty-[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?\.tar\.gz' | head -n 1)
+# Проверяем, найдена ли последняя версия
+if [ -z "$LATEST_VERSION" ]; then
+    echo "Ошибка: Не удалось получить последнюю версию OpenResty."
     exit 1
 fi
 
-# Скачивание выбранной версии OpenResty
-wget https://openresty.org/download/openresty-$SELECTED_VERSION.tar.gz
-tar -xzvf openresty-$SELECTED_VERSION.tar.gz
+# Извлекаем номер версии из имени файла
+SELECTED_VERSION=$(echo $LATEST_VERSION | sed 's/openresty-//;s/\.tar\.gz//')
+
+echo "Последняя стабильная версия OpenResty: $SELECTED_VERSION"
+
+# Скачивание последней версии OpenResty
+wget https://openresty.org/download/$LATEST_VERSION
+if [ $? -ne 0 ]; then
+    echo "Ошибка: Версия OpenResty $LATEST_VERSION не найдена на сервере."
+    exit 1
+fi
+
+tar -xzvf openresty-$LATEST_VERSION.tar.gz
 
 # Скачивание модуля testcookie
 git clone https://github.com/kyprizel/testcookie-nginx-module.git
 
 # Сборка и установка OpenResty с модулем testcookie
-cd openresty-$SELECTED_VERSION
+cd openresty-$LATEST_VERSION
 ./configure --add-module=/opt/testcookie-nginx-module \
 --with-pcre-jit --with-ipv6 --with-http_ssl_module --with-http_stub_status_module
 make
