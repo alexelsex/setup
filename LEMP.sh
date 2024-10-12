@@ -85,7 +85,7 @@ git clone https://github.com/kyprizel/testcookie-nginx-module.git
 
 # Сборка и установка OpenResty с модулем testcookie
 cd openresty-$SELECTED_VERSION
-./configure --prefix=/usr/nginx --add-module=/opt/testcookie-nginx-module --add-module=/opt/ngx_http_geoip2_module --with-pcre-jit --with-ipv6 --with-http_ssl_module --with-http_stub_status_module --with-http_v2_module --with-http_sub_module --with-http_realip_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-google_perftools_module --without-mail_pop3_module --without-mail_smtp_module --without-mail_imap_module --without-http_uwsgi_module --without-http_scgi_module --with-stream_ssl_preread_module​⬤
+./configure --add-module=/opt/testcookie-nginx-module --add-module=/opt/ngx_http_geoip2_module --with-pcre-jit --with-ipv6 --with-http_ssl_module --with-http_stub_status_module --with-http_v2_module --with-http_sub_module --with-http_realip_module --with-stream --with-stream_realip_module --with-stream_ssl_module --with-google_perftools_module --without-mail_pop3_module --without-mail_smtp_module --without-mail_imap_module --without-http_uwsgi_module --without-http_scgi_module --with-stream_ssl_preread_module
 make
 sudo make install
 
