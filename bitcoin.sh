@@ -43,7 +43,7 @@ echo -e "${GREEN}Клонирование Bitcoin Core версии $VERSION...$
 git clone --branch "$VERSION" https://github.com/bitcoin/bitcoin.git
 cd bitcoin
 ./autogen.sh
-./configure --disable-wallet --without-gui
+./configure --without-gui
 make -j$(nproc)
 sudo make install
 cd ..
