@@ -16,44 +16,25 @@ echo "===================="
 echo "Шаг 2: Установка MariaDB"
 echo "===================="
 
-# Получаем список доступных версий MariaDB
-echo "Получение списка доступных версий MariaDB..."
-AVAILABLE_VERSIONS=$(wget -qO- https://downloads.mariadb.org/ | grep -oP '10\.[0-9]+\.[0-9]+' | sort -r | uniq)
-
-# Отображаем список версий и просим пользователя выбрать
-echo "Доступные версии MariaDB:"
-echo "$AVAILABLE_VERSIONS"
-echo
-read -p "Введите версию MariaDB для установки (например, 10.6.19): " SELECTED_VERSION
-
-# Проверяем, что версия введена корректно
-if echo "$AVAILABLE_VERSIONS" | grep -q "^$SELECTED_VERSION$"; then
-    echo "Вы выбрали версию: $SELECTED_VERSION"
-else
-    echo "Ошибка: Введена некорректная версия MariaDB!"
-    exit 1
-fi
-
-# Установка MariaDB с выбранной версией
-curl -fsSL https://mariadb.org/mariadb_release_signing_key.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/mariadb.gpg > /dev/null
-sudo add-apt-repository -y "deb [arch=amd64,arm64,ppc64el] https://mariadb.mirror.liquidtelecom.com/repo/$SELECTED_VERSION/ubuntu focal main"
-sudo apt update
-sudo apt-get install -y aptitude
+curl -LsS https://r.mariadb.com/downloads/mariadb_repo_setup | sudo bash
 
 # Установка MariaDB через aptitude
-sudo aptitude install mariadb-server mariadb-client
+sudo apt install mariadb-server galera-4 -y
+
+mariadb --version
 
 # Настройка безопасности MariaDB
 ROOT_PASSWORD=$(pwgen -s 32 1)
 echo "Root password: $ROOT_PASSWORD"
-sudo mysql -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$ROOT_PASSWORD');"
-sudo mysql -e "DELETE FROM mysql.user WHERE User='';"
-sudo mysql -e "DROP DATABASE IF EXISTS test;"
-sudo mysql -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';"
-sudo mysql -e "FLUSH PRIVILEGES;"
+sudo /usr/bin/mariadb -u root -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$ROOT_PASSWORD');"
+sudo /usr/bin/mariadb -e "DELETE FROM mysql.user WHERE User='';"
+sudo /usr/bin/mariadb -e "DROP DATABASE IF EXISTS test;"
+sudo /usr/bin/mariadb -e "DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';"
+sudo /usr/bin/mariadb -e "FLUSH PRIVILEGES;"
 
 # Автозагрузка MariaDB при старте системы
 sudo systemctl enable mariadb
+sudo systemctl status mariadb
 
 echo "===================="
 echo "Шаг 3: Установка и сборка OpenResty с модулем testcookie"
