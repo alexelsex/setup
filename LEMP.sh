@@ -95,13 +95,13 @@ make
 sudo make install
 
 # Проверка версии OpenResty
-sudo /usr/local/openresty/nginx/sbin/nginx -V
+sudo /usr/nginx/nginx/sbin/nginx -V
 
-# Перенос конфигурации в /etc/nginx
+# Создаем конфиг директорию
 sudo mkdir -p /etc/nginx
-sudo cp -r /usr/local/openresty/nginx/conf/* /etc/nginx/
+sudo cp -r /usr/nginx/nginx/conf/* /etc/nginx/
 
-# Создаем systemd-сервис для OpenResty
+# Создаем systemd-сервис
 sudo bash -c 'cat <<EOF > /etc/systemd/system/openresty.service
 [Unit]
 Description=OpenResty
@@ -109,19 +109,20 @@ After=network.target
 
 [Service]
 Type=forking
-ExecStart=/usr/local/openresty/nginx/sbin/nginx -c /etc/nginx/nginx.conf
-ExecReload=/usr/local/openresty/nginx/sbin/nginx -s reload
-ExecStop=/usr/local/openresty/nginx/sbin/nginx -s quit
-PIDFile=/usr/local/openresty/nginx/logs/nginx.pid
+ExecStart=/usr/nginx/nginx/sbin/nginx -c /etc/nginx/nginx.conf
+ExecReload=/usr/nginx/nginx/sbin/nginx -s reload
+ExecStop=/usr/nginx/nginx/sbin/nginx -s quit
+PIDFile=/usr/nginx/nginx/logs/nginx.pid
 Restart=always
 
 [Install]
 WantedBy=multi-user.target
 EOF'
 
-# Перезагрузка демона systemd
+# Активируем и запускаем
 sudo systemctl daemon-reload
 sudo systemctl enable openresty
+sudo systemctl start openresty
 
 # Создание папок для виртуальных хостов
 sudo mkdir -p /etc/nginx/sites-available
