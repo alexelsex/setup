@@ -9,6 +9,7 @@ sudo apt update && sudo apt upgrade -y
 
 # Устанавливаем необходимые зависимости
 sudo apt-get install -y software-properties-common build-essential libpcre3 libpcre3-dev libssl-dev zlib1g zlib1g-dev pwgen
+sudo apt install -y libmaxminddb-dev libmaxminddb0 mmdb-bin
 
 echo "===================="
 echo "Шаг 2: Установка MariaDB"
